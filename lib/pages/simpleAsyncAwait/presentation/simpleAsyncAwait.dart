@@ -6,19 +6,17 @@ class SimpleAsyncAwait extends StatefulWidget {
   State<StatefulWidget> createState() => SimpleAsyncAwaitState();
 }
 
-class SimpleAsyncAwaitState extends State {
-  bool _loading = false;
+Future<bool> _returnFalse() async {
+  return new Future.delayed(const Duration(seconds: 1), () => false);
+}
 
+class SimpleAsyncAwaitState extends State {
   void _setLoading(bool loading) {
-    setState(() {
-      _loading = loading;
-    });
+    setState(() {});
   }
 
   void _toggleLoading() {
-    setState(() {
-      _loading = !_loading;
-    });
+    setState(() {});
   }
 
   @override
@@ -27,38 +25,35 @@ class SimpleAsyncAwaitState extends State {
       appBar: AppBar(
         title: Text('SimpleAsyncAwait'),
       ),
-      body: GestureDetector(
-        onTap: () => {_setLoading(true)},
-        child: Center(
-          child: Container(
-            height: 200,
-            color: Colors.grey,
-            child: Column(
-              children: [
-                Visibility(
-                  visible: _loading,
-                  // 見えていないときにサイズがそのままのこるか
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  child: Container(
-                    margin: EdgeInsets.only(top: 50, bottom: 30),
-                    child: CircularProgressIndicator(),
+      body: FutureBuilder(
+        future: new Future(() async {
+          var token = await _returnFalse();
+          var user = await _returnFalse();
+          return await _returnFalse();
+        }),
+        builder: (BuildContext context, AsyncSnapshot<bool> feedState) {
+          if (feedState.error != null) {
+            // TODO: error handling
+          }
+          if (feedState.data == null) {
+            return new Center(child: new CircularProgressIndicator());
+          }
+          return Center(
+            child: Container(
+              height: 50,
+              color: Colors.grey,
+              child: GestureDetector(
+                onTap: () => {_toggleLoading()},
+                child: Container(
+                  height: 50,
+                  child: Center(
+                    child: Text('toggle'),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => {_toggleLoading()},
-                  child: Container(
-                    height: 50,
-                    child: Center(
-                      child: Text('toggle'),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
