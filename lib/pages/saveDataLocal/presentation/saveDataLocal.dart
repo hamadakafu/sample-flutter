@@ -1,6 +1,7 @@
 import 'package:color/color.dart' as newC;
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/saveDataLocal/model/config.dart';
+import 'package:flutter_app/pages/saveDataLocal/repository/config.dart';
 
 class SaveDataLocal extends StatefulWidget {
   @override
@@ -8,18 +9,20 @@ class SaveDataLocal extends StatefulWidget {
 }
 
 class SaveDataLocalState extends State {
-  Config config;
+  Config _config;
+  ConfigRepo _configRepo;
 
   String _colorStr = '';
 
   SaveDataLocalState() {
-    // TODO: データベースから撮ってくる
-    this.config = Config(Colors.black);
+    // TODO: repositoryは外部から渡したほうがいいかも
+    this._configRepo = ConfigRepository();
+    this._config = Config(Colors.black);
   }
 
   void setColor(Color color) {
     setState(() {
-      config = Config(color);
+      _config = Config(color);
     });
   }
 
@@ -28,7 +31,7 @@ class SaveDataLocalState extends State {
     return Scaffold(
       appBar: AppBar(
         title: Text('SaveDataLocal'),
-        backgroundColor: config.color,
+        backgroundColor: _config.color,
       ),
       body: Column(
         children: [
@@ -49,7 +52,7 @@ class SaveDataLocalState extends State {
           GestureDetector(
             onTap: () {
               var c = newC.RgbColor.name(_colorStr);
-              setColor(Color.fromARGB(100, c.r, c.g, c.b));
+              setColor(Color.fromARGB(200, c.r, c.g, c.b));
             },
             child: Container(
               height: 50,
@@ -57,6 +60,24 @@ class SaveDataLocalState extends State {
                 child: Text('set color'),
               ),
             ),
+          ),
+          Row(
+            children: [
+              RaisedButton(
+                child: Text('save'),
+                onPressed: () async {
+                  await _configRepo.write(_config.color);
+                  print('save');
+                },
+              ),
+              RaisedButton(
+                child: Text('get'),
+                onPressed: () async {
+                  setColor(await _configRepo.read());
+                  print('get');
+                },
+              ),
+            ],
           )
         ],
       ),

@@ -3,34 +3,38 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/Pages/todoList/presentation/todoList.dart';
 import 'package:flutter_app/Pages/userJson/presentation/userJson.dart';
 import 'package:flutter_app/pages/aboutDialogSample/presentation/aboutDialogSample.dart';
+import 'package:flutter_app/pages/sampleFutureBuilder/presentation/sampleFutureBuilder.dart';
 import 'package:flutter_app/pages/saveDataLocal/presentation/saveDataLocal.dart';
-import 'package:flutter_app/pages/simpleAsyncAwait/presentation/simpleAsyncAwait.dart';
+import 'package:flutter_app/pages/simpleAsyncAwait/presentation/sampleAsyncAwait.dart';
 import 'package:tuple/tuple.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SampleList(),
+      home: Main(),
       routes: {
         '/todo-list': (BuildContext context) => new TodoList(),
         '/user-json': (BuildContext context) => new UserJson(),
         '/about-dialog-sample': (BuildContext context) =>
             new AboutDialogSample(),
-        '/simple-async-await': (BuildContext context) => new SimpleAsyncAwait(),
+        '/sample-async-await': (BuildContext context) => new SampleAsyncAwait(),
         '/save-data-local': (BuildContext context) => new SaveDataLocal(),
+        '/sample-future-builder': (BuildContext context) =>
+            new SampleFutureBuilder(),
       },
     );
   }
 }
 
-class SampleList extends StatelessWidget {
+class Main extends StatelessWidget {
   final List<Tuple2<String, String>> routes = [
     Tuple2('TodoList', '/todo-list'),
     Tuple2('UserJson', '/user-json'),
     Tuple2('AboutDialogSample', '/about-dialog-sample'),
-    Tuple2('SimpleAsyncAwait', '/simple-async-await'),
+    Tuple2('SampleAsyncAwait', '/sample-async-await'),
     Tuple2('SaveDataLocal', '/save-data-local'),
+    Tuple2('SampleFutureBuilder', '/sample-future-builder'),
   ];
 
   @override

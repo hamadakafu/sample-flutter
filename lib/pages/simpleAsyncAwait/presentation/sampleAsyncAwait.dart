@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class SimpleAsyncAwait extends StatefulWidget {
+class SampleAsyncAwait extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => SimpleAsyncAwaitState();
+  State<StatefulWidget> createState() => SampleAsyncAwaitState();
 }
 
 Future<bool> _returnFalse() async {
   return new Future.delayed(const Duration(seconds: 1), () => false);
 }
 
-class SimpleAsyncAwaitState extends State {
+class SampleAsyncAwaitState extends State {
   void _setLoading(bool loading) {
     setState(() {});
   }
