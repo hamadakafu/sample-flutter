@@ -3,7 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_app/Pages/todoList/presentation/todoList.dart';
 import 'package:flutter_app/Pages/userJson/presentation/userJson.dart';
 import 'package:flutter_app/pages/aboutDialogSample/presentation/aboutDialogSample.dart';
+import 'package:flutter_app/pages/finalPrefixVariable/presentation/finalPrefixVariable.dart';
 import 'package:flutter_app/pages/sampleFutureBuilder/presentation/sampleFutureBuilder.dart';
+import 'package:flutter_app/pages/sampleInheritedWidget/presentation/sampleInheritedWidget.dart';
+import 'package:flutter_app/pages/sampleProvider/presentation/sampleProvider.dart';
 import 'package:flutter_app/pages/sampleSQLite/presentation/sampleSQLite.dart';
 import 'package:flutter_app/pages/saveDataLocal/presentation/saveDataLocal.dart';
 import 'package:flutter_app/pages/simpleAsyncAwait/presentation/sampleAsyncAwait.dart';
@@ -24,6 +27,11 @@ class Home extends StatelessWidget {
         '/sample-future-builder': (BuildContext context) =>
             new SampleFutureBuilder(),
         '/sample-sqlite': (BuildContext context) => new SampleSQLite(),
+        '/final-prefix-variable': (BuildContext context) =>
+            new FinalPrefixVariable(),
+        '/sample-inherited-widget': (BuildContext context) =>
+            new SampleInheritedWidget(),
+        '/sample-provider': (BuildContext context) => new SampleProvider(),
       },
     );
   }
@@ -38,6 +46,9 @@ class Main extends StatelessWidget {
     Tuple2('SaveDataLocal', '/save-data-local'),
     Tuple2('SampleFutureBuilder', '/sample-future-builder'),
     Tuple2('SampleSQLite', '/sample-sqlite'),
+    Tuple2('FinalPrefixVariable', '/final-prefix-variable'),
+    Tuple2('SampleInheritedWidget', '/sample-inherited-widget'),
+    Tuple2('SampleProvider', '/sample-provider'),
   ];
 
   @override

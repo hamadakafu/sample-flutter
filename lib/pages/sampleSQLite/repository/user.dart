@@ -14,6 +14,7 @@ abstract class UserRepo {
 }
 
 /// onCreate時にバージョンが変わった際にはhot reloadではonCreateが走らないのでちゃんとrebuildする必要がある
+/// 実機で動かないので解決待ち、flutterの問題かもioができない
 class UserRepositorySQLite implements UserRepo {
   // ignore: top_level_function_literal_block
   var _sqlite;
@@ -22,21 +23,10 @@ class UserRepositorySQLite implements UserRepo {
     if (_sqlite != null) return _sqlite;
     // lazily instantiate the db the first time it is accessed
     print('at first');
+    var databasePath = await getDatabasesPath();
     _sqlite = await openDatabase(
-      join(await getDatabasesPath(), 'sampleSQLite.db'),
-      onCreate: (Database db, int version) async {
-        print('only first create?');
-        await db.execute(
-          '''
-          CREATE TABLE users (
-            userId TEXT PRIMARY KEY, 
-            firstName TEXT NOT NULL, 
-            lastName TEXT NOT NULL
-          )
-          ''',
-        );
-        await db.insert('users', User('feaf', 'hoge', 'lastName').toMap());
-      },
+      join(databasePath, 'sampleSQLite.db'),
+      onCreate: _createDB,
       // versionが変わるときにonCreateが走ってくれる?要確認
       version: 4,
     );
@@ -44,10 +34,27 @@ class UserRepositorySQLite implements UserRepo {
     return _sqlite;
   }
 
+  Future<void> _createDB(Database db, int version) async {
+    print('only first create?');
+    await db.execute(
+      '''
+          CREATE TABLE users (
+            userId TEXT PRIMARY KEY, 
+            firstName TEXT NOT NULL, 
+            lastName TEXT NOT NULL
+          )
+      ''',
+    );
+    await db.insert('users', User('feaf', 'hoge', 'lastName').toMap());
+  }
+
   @override
   Future<void> save(User user) async {
     Database db = await sqlite;
+    print('exist? ${await databaseExists(db.path)}');
     print('insert?');
+    print(db.path);
+    print('${db.isOpen}');
     await db.insert(
       'users',
       user.toMap(),
