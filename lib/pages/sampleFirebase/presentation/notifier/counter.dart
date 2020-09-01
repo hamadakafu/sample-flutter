@@ -5,26 +5,27 @@ import 'package:flutter_app/pages/sampleFirebase/service/interface/iCounterRepos
 
 class CounterStore with ChangeNotifier {
   CounterService _counterService;
-  Counter counter;
+  Future<Counter> futureCounter;
 
-  CounterStore(CounterService counterService, Counter counter) {
+  CounterStore(CounterService counterService, Future<Counter> futureCounter) {
     this._counterService = counterService;
-    this.counter = counter;
-  }
-
-  static Future<CounterStore> future(CounterService counterService) async {
-    var cs = CounterStore(counterService, null);
-    cs.counter = await cs._counterService.fetchLatest();
-    return cs;
+    this.futureCounter = futureCounter;
+    futureCounter.then((value) {
+      notifyListeners();
+    });
   }
 
   Future<void> fetchLatest() async {
-    this.counter = await _counterService.fetchLatest();
-    notifyListeners();
+    this.futureCounter = _counterService.fetchLatest();
+    this.futureCounter.then((value) {
+      notifyListeners();
+    });
   }
 
-  void incrementCounter() async {
-    counter = await _counterService.increment(counter);
-    notifyListeners();
+  Future<void> incrementCounter() async {
+    this.futureCounter.then((value) {
+      this.futureCounter = _counterService.increment(value);
+      notifyListeners();
+    });
   }
 }

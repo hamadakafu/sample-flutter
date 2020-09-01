@@ -7,7 +7,7 @@ import 'package:flutter_app/pages/sampleFirebase/service/common/counterService.d
 import 'package:flutter_app/pages/sampleFirebase/service/interface/iCounterRepository.dart';
 import 'package:provider/provider.dart';
 
-/// TODO: incrementボタンが押されたときにくるくるが入るようにする
+/// TODO: DI IoCを試してみる
 class SampleFirebaseHome extends StatelessWidget {
   CounterService counterService;
 
@@ -18,11 +18,29 @@ class SampleFirebaseHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('titiefja'),
-        ),
-        body: FutureBuilder(
-          future: counterService.fetchLatest(),
+      appBar: AppBar(
+        title: Text('titiefja'),
+      ),
+      body: ChangeNotifierProvider(
+        create: (context) =>
+            CounterStore(counterService, counterService.fetchLatest()),
+        child: CounterWidget(),
+      ),
+    );
+  }
+}
+
+class CounterWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final Future<Counter> futureCounter =
+        context.select((CounterStore store) => store.futureCounter);
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FutureBuilder(
+          future: futureCounter,
           builder: (BuildContext context, AsyncSnapshot<Counter> snapshot) {
             if (snapshot.error != null) {
               // TODO: error handling
@@ -32,36 +50,32 @@ class SampleFirebaseHome extends StatelessWidget {
                 snapshot.connectionState != ConnectionState.done) {
               return new Center(child: new CircularProgressIndicator());
             }
-            return ChangeNotifierProvider(
-              create: (context) => CounterStore(counterService, snapshot.data),
-              child: CounterWidget(),
+            return Container(
+              height: 50,
+              child: Center(
+                child: Text('count: ${snapshot.data.count}'),
+              ),
             );
           },
-        ));
-  }
-}
-
-class CounterWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final Counter counter =
-        context.select((CounterStore store) => store.counter);
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          height: 50,
-          child: Center(
-            child: Text('count: ${counter.count}'),
-          ),
         ),
-        FloatingActionButton(
-          onPressed: () {
-            // readはonPressedのときとか中でしか読んではいけない
-            context.read<CounterStore>().incrementCounter();
-          },
-        ),
+        FutureBuilder(
+            future: futureCounter,
+            builder: (BuildContext context, AsyncSnapshot<Counter> snapshot) {
+              if (snapshot.error != null) {
+                // TODO: error handling
+              }
+              // ここをConnectionState.doneじゃないやつにすると期待通りにリロード画面が間に入る
+              if (snapshot.data == null ||
+                  snapshot.connectionState != ConnectionState.done) {
+                return new Center(child: new CircularProgressIndicator());
+              }
+              return FloatingActionButton(
+                onPressed: () {
+                  // readはonPressedのときとか中でしか読んではいけない
+                  context.read<CounterStore>().incrementCounter();
+                },
+              );
+            }),
       ],
     );
   }
