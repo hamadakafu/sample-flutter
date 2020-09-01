@@ -4,6 +4,7 @@ import 'package:flutter_app/Pages/todoList/presentation/todoList.dart';
 import 'package:flutter_app/Pages/userJson/presentation/userJson.dart';
 import 'package:flutter_app/pages/aboutDialogSample/presentation/aboutDialogSample.dart';
 import 'package:flutter_app/pages/finalPrefixVariable/presentation/finalPrefixVariable.dart';
+import 'package:flutter_app/pages/sampleFlutterTTS/presentation/sampleFlutterTTS.dart';
 import 'package:flutter_app/pages/sampleFutureBuilder/presentation/sampleFutureBuilder.dart';
 import 'package:flutter_app/pages/sampleInheritedWidget/presentation/sampleInheritedWidget.dart';
 import 'package:flutter_app/pages/sampleProvider/presentation/sampleProvider.dart';
@@ -17,6 +18,22 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Main(),
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.lightBlue[800],
+        accentColor: Colors.cyan[600],
+
+        // Define the default font family.
+        fontFamily: 'Ricty',
+
+        // Define the default TextTheme. Use this to specify the default
+        // text styling for headlines, titles, bodies of text, and more.
+        textTheme: TextTheme(
+          headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+          headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+          bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+        ),
+      ),
       routes: {
         '/todo-list': (BuildContext context) => new TodoList(),
         '/user-json': (BuildContext context) => new UserJson(),
@@ -32,6 +49,7 @@ class Home extends StatelessWidget {
         '/sample-inherited-widget': (BuildContext context) =>
             new SampleInheritedWidget(),
         '/sample-provider': (BuildContext context) => new SampleProvider(),
+        '/sample-flutter-tts': (BuildContext context) => new SampleFlutterTTS(),
       },
     );
   }
@@ -49,6 +67,7 @@ class Main extends StatelessWidget {
     Tuple2('FinalPrefixVariable', '/final-prefix-variable'),
     Tuple2('SampleInheritedWidget', '/sample-inherited-widget'),
     Tuple2('SampleProvider', '/sample-provider'),
+    Tuple2('SampleFlutterTTS', '/sample-flutter-tts'),
   ];
 
   @override

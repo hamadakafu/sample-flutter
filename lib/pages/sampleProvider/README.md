@@ -1,0 +1,2 @@
+providerはリポジトリみたいなもの
+jsのstoreみたいなもの
