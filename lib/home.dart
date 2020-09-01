@@ -4,6 +4,7 @@ import 'package:flutter_app/Pages/todoList/presentation/todoList.dart';
 import 'package:flutter_app/Pages/userJson/presentation/userJson.dart';
 import 'package:flutter_app/pages/aboutDialogSample/presentation/aboutDialogSample.dart';
 import 'package:flutter_app/pages/finalPrefixVariable/presentation/finalPrefixVariable.dart';
+import 'package:flutter_app/pages/sampleFirebase/presentation/pages/counter.dart';
 import 'package:flutter_app/pages/sampleFlutterTTS/presentation/sampleFlutterTTS.dart';
 import 'package:flutter_app/pages/sampleFutureBuilder/presentation/sampleFutureBuilder.dart';
 import 'package:flutter_app/pages/sampleInheritedWidget/presentation/sampleInheritedWidget.dart';
@@ -50,6 +51,7 @@ class Home extends StatelessWidget {
             new SampleInheritedWidget(),
         '/sample-provider': (BuildContext context) => new SampleProvider(),
         '/sample-flutter-tts': (BuildContext context) => new SampleFlutterTTS(),
+        '/sample-firebase': (BuildContext context) => new SampleFirebaseHome(),
       },
     );
   }
@@ -68,6 +70,7 @@ class Main extends StatelessWidget {
     Tuple2('SampleInheritedWidget', '/sample-inherited-widget'),
     Tuple2('SampleProvider', '/sample-provider'),
     Tuple2('SampleFlutterTTS', '/sample-flutter-tts'),
+    Tuple2('SampleFirebase', '/sample-firebase'),
   ];
 
   @override
