@@ -7,9 +7,9 @@ class CounterStore with ChangeNotifier {
   CounterService _counterService;
   Future<Counter> futureCounter;
 
-  CounterStore(CounterService counterService, Future<Counter> futureCounter) {
-    this._counterService = counterService;
-    this.futureCounter = futureCounter;
+  CounterStore({ICounterRepository repo}) {
+    this._counterService = CounterService(repo: repo);
+    this.futureCounter = this._counterService.fetchLatest();
     futureCounter.then((value) {
       notifyListeners();
     });

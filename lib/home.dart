@@ -19,7 +19,6 @@ import 'package:tuple/tuple.dart';
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    ICounterRepository counterRepository = CounterRepositoryFirestore();
     return MaterialApp(
       home: Main(),
       theme: ThemeData(
@@ -55,7 +54,7 @@ class Home extends StatelessWidget {
         '/sample-provider': (BuildContext context) => new SampleProvider(),
         '/sample-flutter-tts': (BuildContext context) => new SampleFlutterTTS(),
         '/sample-firebase': (BuildContext context) =>
-            new SampleFirebaseHome(counterRepository),
+            new SampleFirebaseHome(),
       },
     );
   }

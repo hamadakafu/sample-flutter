@@ -8,22 +8,28 @@ import 'package:flutter_app/pages/sampleFirebase/service/interface/iCounterRepos
 import 'package:provider/provider.dart';
 
 /// TODO: DI IoCを試してみる
+/// DIのうまいやり方わからん
+/// ```
+/// return CounterStore(repo: CounterRepositoryFirestore());
+/// ```
 class SampleFirebaseHome extends StatelessWidget {
-  CounterService counterService;
-
-  SampleFirebaseHome(ICounterRepository counterRepository) {
-    this.counterService = CounterService(counterRepository);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('titiefja'),
       ),
-      body: ChangeNotifierProvider(
-        create: (context) =>
-            CounterStore(counterService, counterService.fetchLatest()),
+      body: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            lazy: false,
+            create: (BuildContext context) {
+              // FIXME: repo渡すんじゃなくてservice渡したほうがいい
+              // FIXME: singletonオブジェクトにしたほうがいい
+              return CounterStore(repo: CounterRepositoryFirestore());
+            },
+          ),
+        ],
         child: CounterWidget(),
       ),
     );
@@ -33,14 +39,13 @@ class SampleFirebaseHome extends StatelessWidget {
 class CounterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Future<Counter> futureCounter =
-        context.select((CounterStore store) => store.futureCounter);
+    final CounterStore _counterStore = Provider.of<CounterStore>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         FutureBuilder(
-          future: futureCounter,
+          future: _counterStore.futureCounter,
           builder: (BuildContext context, AsyncSnapshot<Counter> snapshot) {
             if (snapshot.error != null) {
               // TODO: error handling
@@ -59,7 +64,7 @@ class CounterWidget extends StatelessWidget {
           },
         ),
         FutureBuilder(
-            future: futureCounter,
+            future: _counterStore.futureCounter,
             builder: (BuildContext context, AsyncSnapshot<Counter> snapshot) {
               if (snapshot.error != null) {
                 // TODO: error handling
