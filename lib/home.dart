@@ -5,6 +5,7 @@ import 'package:flutter_app/Pages/userJson/presentation/userJson.dart';
 import 'package:flutter_app/pages/aboutDialogSample/presentation/aboutDialogSample.dart';
 import 'package:flutter_app/pages/finalPrefixVariable/presentation/finalPrefixVariable.dart';
 import 'package:flutter_app/pages/sampleFirebase/presentation/pages/counter.dart';
+import 'package:flutter_app/pages/sampleFirebase/presentation/pages/home.dart';
 import 'package:flutter_app/pages/sampleFirebase/repository/counter.dart';
 import 'package:flutter_app/pages/sampleFirebase/service/interface/iCounterRepository.dart';
 import 'package:flutter_app/pages/sampleFlutterTTS/presentation/sampleFlutterTTS.dart';
@@ -53,8 +54,7 @@ class Home extends StatelessWidget {
             new SampleInheritedWidget(),
         '/sample-provider': (BuildContext context) => new SampleProvider(),
         '/sample-flutter-tts': (BuildContext context) => new SampleFlutterTTS(),
-        '/sample-firebase': (BuildContext context) =>
-            new SampleFirebaseHome(),
+        '/sample-firebase': (BuildContext context) => new SampleFirebaseHome(),
       },
     );
   }

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 /// ```
 /// return CounterStore(repo: CounterRepositoryFirestore());
 /// ```
-class SampleFirebaseHome extends StatelessWidget {
+class CounterHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
